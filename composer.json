@@ -1,0 +1,11 @@
+{
+    "name": "ctrlclus/ctrlclus",
+	"autoload":{
+       "psr-4": {
+            "MyFrame\\": "Mylib/"
+        }
+    },
+    "require": {
+        "mongodb/mongodb": "^2.0"
+    }
+}

@@ -1,0 +1,68 @@
+# Composer dependencies
+/vendor/
+/lib/vendor/
+composer.phar
+
+# Logs
+/logs/*.log
+/logs/*.txt
+
+# Configuration files with sensitive data
+config.php
+config_production.php
+
+# Temporary and cache files
+*.tmp
+*.cache
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test files
+test_*.json
+retest_*.json
+
+# Debug and development files
+debug_*.php
+debug_*.html
+test_*.php
+test_*.html
+diagnose_*.php
+analyze_*.php
+firefox_*.html
+cleanup_*.php
+automated_*.php
+manage_clusters.php
+force_refresh_test.php
+
+# Development directories
+test_files/
+
+# Backup files
+*_BCK/
+*_OLD/
+*.bak
+*.backup
+
+# NetBeans project files
+/nbproject/
+
+# Environment-specific files
+.env
+.env.local
+.env.production
+
+# Upload test files
+*.tgz
+
+# Windows files
+windows.php
+
+# Old directories that shouldn't be in repo
+OLD/
