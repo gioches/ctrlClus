@@ -188,23 +188,23 @@ sudo ./install.sh
 
 ```mermaid
 graph TB
-    A[Cassandra Node 1<br/>+ ctrlNods Agent] --> A1[Local SQLite<br/>(/opt/ramdisk)]
-    B[Cassandra Node 2<br/>+ ctrlNods Agent] --> B1[Local SQLite<br/>(/opt/ramdisk)]
-    C[Cassandra Node N<br/>+ ctrlNods Agent] --> C1[Local SQLite<br/>(/opt/ramdisk)]
+    A["Cassandra Node 1 + ctrlNods Agent"] --> A1["Local SQLite (/opt/ramdisk)"]
+    B["Cassandra Node 2 + ctrlNods Agent"] --> B1["Local SQLite (/opt/ramdisk)"]
+    C["Cassandra Node N + ctrlNods Agent"] --> C1["Local SQLite (/opt/ramdisk)"]
 
-    A1 --> A2[JSON Export<br/>(500_exp.sh)]
-    B1 --> B2[JSON Export<br/>(500_exp.sh)]
-    C1 --> C2[JSON Export<br/>(500_exp.sh)]
+    A1 --> A2["JSON Export (500_exp.sh)"]
+    B1 --> B2["JSON Export (500_exp.sh)"]
+    C1 --> C2["JSON Export (500_exp.sh)"]
 
-    A2 --> D[ctrlClus Upload<br/>(upload_FILE.php)]
+    A2 --> D["ctrlClus Upload (upload_FILE.php)"]
     B2 --> D
     C2 --> D
 
-    D --> E[Central MongoDB]
-    E --> F[ctrlClus Web Dashboard]
-    F --> G[Administrators]
-    F --> H[DevOps Teams]
-    F --> I[Alerts & Notifications]
+    D --> E["Central MongoDB"]
+    E --> F["ctrlClus Web Dashboard"]
+    F --> G["Administrators"]
+    F --> H["DevOps Teams"]
+    F --> I["Alerts & Notifications"]
 ```
 
 ### Data Flow Architecture
