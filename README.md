@@ -188,22 +188,34 @@ sudo ./install.sh
 
 ```mermaid
 graph TB
-    A[Cassandra Node 1<br/>+ ctrlNods Agent] --> D[Central MongoDB]
-    B[Cassandra Node 2<br/>+ ctrlNods Agent] --> D
-    C[Cassandra Node N<br/>+ ctrlNods Agent] --> D
-    D --> E[ctrlClus Web Dashboard]
-    E --> F[Administrators]
-    E --> G[DevOps Teams]
-    E --> H[Alerts & Notifications]
+    A[Cassandra Node 1<br/>+ ctrlNods Agent] --> A1[Local SQLite<br/>(/opt/ramdisk)]
+    B[Cassandra Node 2<br/>+ ctrlNods Agent] --> B1[Local SQLite<br/>(/opt/ramdisk)]
+    C[Cassandra Node N<br/>+ ctrlNods Agent] --> C1[Local SQLite<br/>(/opt/ramdisk)]
+
+    A1 --> A2[JSON Export<br/>(500_exp.sh)]
+    B1 --> B2[JSON Export<br/>(500_exp.sh)]
+    C1 --> C2[JSON Export<br/>(500_exp.sh)]
+
+    A2 --> D[ctrlClus Upload<br/>(upload_FILE.php)]
+    B2 --> D
+    C2 --> D
+
+    D --> E[Central MongoDB]
+    E --> F[ctrlClus Web Dashboard]
+    F --> G[Administrators]
+    F --> H[DevOps Teams]
+    F --> I[Alerts & Notifications]
 ```
 
 ### Data Flow Architecture
 
 1. **[ctrlNods agents](https://github.com/gioches/ctrlNods)** → Monitor each Cassandra node locally
-2. **Local SQLite** → Store events on RAM disk (tmpfs) for performance
-3. **Central MongoDB** → Aggregate data from all nodes via upload_FILE.php
-4. **ctrlClus interface** → Analyze and visualize cluster-wide patterns
-5. **Alerting system** → Notify via Teams/email/SMS based on analysis
+2. **Local SQLite** → Store events on RAM disk (`/opt/ramdisk`) for performance
+3. **JSON Export** → `500_exp.sh` exports SQLite data to JSON format
+4. **Upload to ctrlClus** → JSON data uploaded via `upload_FILE.php` interface
+5. **Central MongoDB** → Aggregate and store data from all cluster nodes
+6. **ctrlClus interface** → Analyze and visualize cluster-wide patterns
+7. **Alerting system** → Notify via Teams/email/SMS based on analysis
 
 ### 🎯 Perfect Combination Benefits
 
