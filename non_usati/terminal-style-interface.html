@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ctrlClus Terminal Interface</title>
+    <style>
+        :root {
+            --main-bg-color: #0a0a0a;
+            --terminal-bg-color: #121212;
+            --terminal-text-color: #0f0;
+            --header-color: #00cc00;
+            --accent-color: #00aa00;
+            --menu-hover-color: #181818;
+            --border-color: #333;
+            --table-header-bg: #004400;
+            --table-row-odd: rgba(0, 60, 0, 0.2);
+            --table-row-even: rgba(0, 40, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background-color: var(--main-bg-color);
+            color: var(--terminal-text-color);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            grid-template-rows: auto 1fr;
+            grid-template-areas:
+                "header header"
+                "menu content";
+            gap: 20px;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        header {
+            grid-area: header;
+            background-color: var(--terminal-bg-color);
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            color: var(--header-color);
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+        
+        .cluster-selector {
+            display: flex;
+            align-items: center;
+        }
+        
+        .cluster-selector label {
+            margin-right: 10px;
+            color: var(--terminal-text-color);
+        }
+        
+        select {
+            background-color: var(--terminal-bg-color);
+            color: var(--terminal-text-color);
+            border: 1px solid var(--border-color);
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        select:focus {
+            box-shadow: 0 0 5px var(--accent-color);
+        }
+        
+        .menu {
+            grid-area: menu;
+            background-color: var(--terminal-bg-color);
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+        }
+        
+        .menu-category {
+            margin-bottom: 15px;
+        }
+        
+        .menu-category > button {
+            width: 100%;
+            text-align: left;
+            background-color: transparent;
+            color: var(--header-color);
+            border: none;
+            font-size: 1.1rem;
+            padding: 8px 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .menu-category > button::before {
+            content: ">";
+            margin-right: 10px;
+        }
+        
+        .menu-items {
+            margin-left: 15px;
+            margin-top: 5px;
+        }
+        
+        .menu-item {
+            padding: 6px 10px;
+            margin-bottom: 2px;
+            cursor: pointer;
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--menu-hover-color);
+            color: var(--header-color);
+        }
+        
+        .menu-item::before {
+            content: "$";
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .submenu-items {
+            margin-left: 15px;
+        }
+        
+        .submenu-item {
+            padding: 4px 10px;
+            cursor: pointer;
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .submenu-item:hover {
+            background-color: var(--menu-hover-color);
+            color: var(--header-color);
+        }
+        
+        .submenu-item::before {
+            content: "-";
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .content {
+            grid-area: content;
+            background-color: var(--terminal-bg-color);
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .content-header {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .content-title {
+            color: var(--header-color);
+            font-size: 1.2rem;
+        }
+        
+        .content-meta {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        th {
+            background-color: var(--table-header-bg);
+            color: var(--terminal-text-color);
+            padding: 10px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        
+        tr:nth-child(odd) {
+            background-color: var(--table-row-odd);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--table-row-even);
+        }
+        
+        td {
+            padding: 8px 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .blinking-cursor {
+            animation: blink 1s step-end infinite;
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: var(--terminal-text-color);
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Simulated terminal loading effect */
+        .terminal-loading {
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .terminal-line {
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 0.15em solid var(--accent-color);
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-color) }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--terminal-bg-color);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--header-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ctrlClus</h1>
+        <div class="cluster-selector">
+            <label for="cluster-select">Cluster:</label>
+            <select id="cluster-select">
+                <option value="cluster1">Production Cluster</option>
+                <option value="cluster2">Development Cluster</option>
+                <option value="cluster3">Testing Cluster</option>
+                <option value="cluster4">Staging Cluster</option>
+            </select>
+        </div>
+    </header>
+    
+    <div class="menu">
+        <div class="menu-category">
+            <button id="panorama-btn">Panorama</button>
+            <div class="menu-items">
+                <div class="menu-item" id="latest-events">Latest Events per Node</div>
+                <div class="submenu-items">
+                    <div class="submenu-item" id="recurring-events">Recurring Events</div>
+                    <div class="submenu-item" id="period-events">Events in Same Period</div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-category">
+            <button id="statistics-btn">Statistics</button>
+            <div class="menu-items" style="display: none;">
+                <div class="menu-item">Performance Metrics</div>
+                <div class="menu-item">Resource Usage</div>
+                <div class="menu-item">Error Rate</div>
+            </div>
+        </div>
+        <div class="menu-category">
+            <button id="nodes-btn">Nodes</button>
+            <div class="menu-items" style="display: none;">
+                <div class="menu-item">Node Status</div>
+                <div class="menu-item">Configuration</div>
+                <div class="menu-item">Connectivity</div>
+            </div>
+        </div>
+        <div class="menu-category">
+            <button id="logs-btn">Logs</button>
+            <div class="menu-items" style="display: none;">
+                <div class="menu-item">System Logs</div>
+                <div class="menu-item">Application Logs</div>
+                <div class="menu-item">Audit Logs</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div class="content-header">
+            <div class="content-title">System Overview</div>
+            <div class="content-meta">Last updated: <span id="current-time"></span></div>
+        </div>
+        
+        <div class="terminal-loading">
+            <div class="terminal-line">$ Initializing ctrlClus interface...</div>
+        </div>
+        
+        <div class="terminal-loading">
+            <div class="terminal-line">$ Loading cluster data...</div>
+        </div>
+        
+        <table id="results-table">
+            <thead>
+                <tr>
+                    <th>Node ID</th>
+                    <th>IP Address</th>
+                    <th>Status</th>
+                    <th>Last Event</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>node_001</td>
+                    <td>192.168.1.101</td>
+                    <td>Online</td>
+                    <td>System started</td>
+                    <td>2025-05-06 08:30:15</td>
+                </tr>
+                <tr>
+                    <td>node_002</td>
+                    <td>192.168.1.102</td>
+                    <td>Online</td>
+                    <td>Database backup completed</td>
+                    <td>2025-05-06 09:15:33</td>
+                </tr>
+                <tr>
+                    <td>node_003</td>
+                    <td>192.168.1.103</td>
+                    <td>Warning</td>
+                    <td>High memory usage</td>
+                    <td>2025-05-06 10:05:22</td>
+                </tr>
+                <tr>
+                    <td>node_004</td>
+                    <td>192.168.1.104</td>
+                    <td>Online</td>
+                    <td>Service restarted</td>
+                    <td>2025-05-06 07:45:11</td>
+                </tr>
+                <tr>
+                    <td>node_005</td>
+                    <td>192.168.1.105</td>
+                    <td>Error</td>
+                    <td>Connection timeout</td>
+                    <td>2025-05-06 10:12:58</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="blinking-cursor"></div>
+    </div>
+    
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Toggle menu categories
+        document.querySelectorAll('.menu-category > button').forEach(button => {
+            button.addEventListener('click', function() {
+                const menuItems = this.nextElementSibling;
+                const isVisible = menuItems.style.display !== 'none';
+                
+                if (isVisible) {
+                    menuItems.style.display = 'none';
+                } else {
+                    menuItems.style.display = 'block';
+                }
+            });
+        });
+        
+        // Simulate menu item clicks
+        document.getElementById('latest-events').addEventListener('click', function() {
+            document.querySelector('.content-title').textContent = 'Latest Events per Node';
+            simulateDataLoading();
+        });
+        
+        document.getElementById('recurring-events').addEventListener('click', function() {
+            document.querySelector('.content-title').textContent = 'Recurring Events Analysis';
+            simulateDataLoading();
+        });
+        
+        document.getElementById('period-events').addEventListener('click', function() {
+            document.querySelector('.content-title').textContent = 'Events in Same Period';
+            simulateDataLoading();
+        });
+        
+        // Simulate data loading
+        function simulateDataLoading() {
+            const table = document.getElementById('results-table');
+            table.style.opacity = '0.3';
+            
+            setTimeout(() => {
+                table.style.opacity = '1';
+            }, 1000);
+        }
+        
+        // Initialize with first menu category open
+        document.querySelector('.menu-items').style.display = 'block';
+    </script>
+</body>
+</html>
