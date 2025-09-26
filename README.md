@@ -362,10 +362,13 @@ curl -X POST -F "token=YOUR_TOKEN" -F "files[]=@test.json" \
 
 **Giorgio Chessari** - Senior Database Administrator & Enterprise Infrastructure Architect
 
-- 🌐 **Portfolio**: [giorgio.chessari.it](http://giorgio.chessari.it)
+- 🌐 **Personal Website**: [giorgio.chessari.it](http://giorgio.chessari.it)
+- 🏢 **Professional Website**: [kesnet.it](http://kesnet.it)
+- 💼 **LinkedIn**: [linkedin.com/in/gio1](https://www.linkedin.com/in/gio1)
 - 🏛️ **Experience**: 15+ years in enterprise database administration
-- 🏦 **Specialization**: Financial services, payment processing, mission-critical systems
-- 🎯 **Focus**: Cassandra clusters, MongoDB, Redis with Sentinel, NoSQL optimization, enterprise monitoring solutions
+- 🏦 **Industry Specialization**: Insurance (Assicurativo), Banking (Bancario), Healthcare (Sanitario), Telecommunications (Telecomunicazioni), Multi-services (Multiservizi)
+- 🎯 **Technical Focus**: Cassandra clusters, MongoDB, Redis with Sentinel, NoSQL optimization, enterprise monitoring solutions
 - 📊 **Track Record**: Managing databases serving millions of daily transactions
+- 🚀 **Project Leadership**: Founder & Lead Developer of [mondoagenzia.it](http://mondoagenzia.it) - software distributed to 250+ Allianz-Unipolsai agencies
 
-**Professional consulting and enterprise database solutions available at [giorgio.chessari.it](http://giorgio.chessari.it)**
+**Professional consulting and enterprise database solutions available at [giorgio.chessari.it](http://giorgio.chessari.it) | [kesnet.it](http://kesnet.it)**
