@@ -5,7 +5,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/gioches/ctrlClus?style=social)](https://github.com/gioches/ctrlClus/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/gioches/ctrlClus?style=social)](https://github.com/gioches/ctrlClus/network/members)
 [![GitHub issues](https://img.shields.io/github/issues/gioches/ctrlClus)](https://github.com/gioches/ctrlClus/issues)
-[![GitHub license](https://img.shields.io/github/license/gioches/ctrlClus)](https://github.com/gioches/ctrlClus/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Cluster Monitoring](https://img.shields.io/badge/Cluster-Monitoring%20Dashboard-blue)](https://github.com/gioches/ctrlClus)
 [![Web Interface](https://img.shields.io/badge/Web-Interface-green)](https://github.com/gioches/ctrlClus)
 [![Enterprise Ready](https://img.shields.io/badge/Enterprise-Ready-gold)](https://github.com/gioches/ctrlClus)
@@ -321,7 +321,9 @@ curl -X POST -F "token=YOUR_TOKEN" -F "files[]=@test.json" \
 
 ## 📄 License
 
-[Add your license information here]
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+The Apache License 2.0 is a permissive license that also provides an express grant of patent rights from contributors to users.
 
 ## 🤝 Related Projects & Ecosystem
 
