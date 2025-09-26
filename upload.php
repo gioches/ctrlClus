@@ -4,12 +4,6 @@ require 'lib/vendor/autoload.php'; // Libreria MongoDB
 use MongoDB\Client;
 
 
-//6818d72fbf54b7cc5b05f5c3
-//5f5c3
-//TOKEN123
-// curl -X POST -H "Authorization: TOKEN TOKEN123"   -F "file=@file.json"   https://iceland.kesnet.it/ctrlClus/upload.php
-
-
 $mongo = new Client("mongodb://127.0.0.1:31007");
 $db = $mongo->selectDatabase("ctrlNods");
 
