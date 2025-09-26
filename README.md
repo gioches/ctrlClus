@@ -139,9 +139,9 @@ Answer complex operational questions instantly:
    ```
 
 3. **Configure MongoDB connection**
-   - Update MongoDB connection details in `ajax.php` and `upload_FILE.php`
-   - Set up authentication credentials
-   - Configure cluster definitions in `non_usati/config.php`
+   - Copy `config.template.php` to `config.php` and update with your settings
+   - Update MongoDB connection details (host, credentials, database)
+   - Configure cluster definitions in `config.php`
 
 4. **Set up web server**
    - Point document root to project directory
@@ -161,13 +161,8 @@ ctrlClus/
 │   ├── composer.json      # Upload-specific dependencies
 │   └── vendor/            # Upload PHP dependencies
 ├── config.template.php    # Configuration template (copy to config.php)
-├── non_usati/
-│   └── config.php         # Legacy cluster configuration
 ├── logs/                  # Application logs
-├── DOC/                   # Complete documentation (PDF + DOCX)
 ├── README.md              # This documentation
-├── CTRLNODS.md           # Detailed ctrlNods documentation
-├── SETUP.md              # Installation guide
 └── .gitignore            # Git ignore rules
 ```
 
@@ -238,12 +233,22 @@ ctrlClus provides intelligent analysis of data collected by ctrlNods:
 ## 🔧 Configuration
 
 ### MongoDB Setup
-The application connects to MongoDB with cluster node data. Configure connection parameters in:
-- `ajax.php:15` - Main interface connection
-- `upload_FILE.php:6` - Upload interface connection
+The application connects to MongoDB with cluster node data. Configure connection parameters in `config.php`:
+
+```php
+'mongodb' => [
+    'host' => 'your-mongodb-host',
+    'port' => 27017,
+    'database' => 'ctrlNods',
+    'username' => 'your-username',
+    'password' => 'your-password',
+    'auth_source' => 'admin',
+    'auth_mechanism' => 'SCRAM-SHA-1'
+]
+```
 
 ### Cluster Configuration
-Define your clusters in `non_usati/config.php`:
+Define your clusters in `config.php`:
 
 ```php
 $config['clusters'] = [
